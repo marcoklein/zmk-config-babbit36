@@ -15,6 +15,8 @@
 // https://github.com/zmkfirmware/zmk/tree/main/app/boards/shields/corne
 // https://github.com/aroum/zmk-enki42
 
+// https://nickcoutsos.github.io/keymap-editor
+
 &lt {
     quick-tap-ms = <200>;
     flavor = "balanced";
@@ -135,7 +137,7 @@
 //,--------------------------------------------------------------.            ,---------------------------------------------------------------.
     &trans   &trans      &trans       &trans      &trans   &trans                &trans     &trans   &trans      &trans   &trans   &kp C_POWER
 //|--------+-----------+----------+----------+-----------+-------|            |---------+----------+--------+-----------+--------+------------|
-    &trans   &kp LCTRL   &kp LALT   &kp LCMD   &kp LSHFT   &trans                &trans  &kp RSHFT  &kp RCMD  &kp RALT  &kp RCTRL  &trans
+    &trans   &trans      &trans       &trans      &trans   &trans                &trans     &trans   &trans      &trans   &trans   &trans
 //|--------+-----------+----------+----------+-----------+-------|            |---------+----------+--------+-----------+--------+------------|
     &mkp MCLK   &trans   &trans       &trans      &trans   &trans                &trans     &trans   &trans      &trans   &trans   &mkp LCLK
 //|--------+-----------+----------+----------+-----------+-------+----|  |----+---------+----------+--------+-----------+--------+------------|
