@@ -49,8 +49,10 @@
         mlt: mouse_lt {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
+            tapping-term-ms = <150>;
             tapping-term-ms = <200>;
-            flavor = "tap-preferred";
+            require-prior-idle-ms = <125>;
+            flavor = "hold-preferred";
             bindings = <&mo>, <&mkp>;
         };
         um: tap_preferred_umlaut_mods {
