@@ -16,6 +16,7 @@
 // todo: make dongle work.
 // https://github.com/zmkfirmware/zmk/tree/main/app/boards/shields/corne
 // https://github.com/aroum/zmk-enki42
+// todo: prevent homerow mods on the same half
 // set OS layout to U.S. Ansi
 
 &lt {
