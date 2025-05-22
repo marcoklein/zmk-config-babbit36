@@ -125,9 +125,9 @@
 //,-------------------------------------------------------------.            ,----------------------------------------------------------------------.
    &kp F12   &kp F1   &kp F2   &kp F3       &kp F4   &kp F5                        &kp F6     &kp LPAR         &kp RPAR   &kp F9   &kp F10   &kp F11
 //|--------+--------+--------+--------+------------+------------|            |------------+------------+----------------+--------+---------+--------|
-   &caps_word &umlaut A &trans &trans       &trans   &trans                        &trans  &hm RSHFT LBKT  &hm RCMD RBKT  &trans  &trans  &trans
+   &caps_word &umlaut A &trans &trans       &trans   &trans                        &trans  &hm RSHFT LBRC  &hm RCMD RBRC  &trans  &trans  &trans
 //|--------+--------+--------+--------+------------+------------|            |------------+------------+----------------+--------+---------+--------|
-    &trans   &trans   &trans   &trans       &trans   &trans                         &trans  &kp LBRC            &kp RBRC   &trans    &trans   &trans
+    &trans   &trans   &trans   &trans       &trans   &trans                         &trans  &kp LBKT            &kp RBKT   &trans    &trans   &trans
 //|--------+--------+--------+--------+------------+------------+----|  |----+------------+------------+----------------+--------+---------+--------|
                                     &trans   &kp SPACE   &kp BSPC    &kp RET   &kp SPACE  &trans
                                  //`-------+-----------+---------'  `--------+----------'
