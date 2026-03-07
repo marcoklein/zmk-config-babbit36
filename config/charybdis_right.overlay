@@ -1,9 +1,3 @@
-#define DEFAULT 0
-#define LOWER   1
-#define MOUSE   2
-#define RAISE   3
-#define NAV     4
-
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
@@ -33,13 +27,31 @@
 
     trackball: trackball@0 {
         status = "okay";
-        compatible = "pixart,pmw3610";
+        compatible = "pixart,pmw3610-alt";
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        automouse-layer = <MOUSE>;
-        snipe-layers = <NAV>;
-        scroll-layers = <RAISE>;
+        cpi = <600>;
+        // swap-xy; /* optional */
+        // invert-x; /* optional */
+        // invert-y; /* optional */
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
+        // force-awake;
+        /* keep the sensor awake while ZMK activity state is ACTIVE,
+           fallback to normal downshift mode after ZMK goes into IDLE / SLEEP mode.
+           thus, the sensor would be a `wakeup-source` */
+
+        // force-awake-4ms-mode;
+        /* while force-awake is acitvated, enable this mode to force sampling per 
+           4ms, where the default sampling rate is 8ms. */
+        /* NOTE: apply this mode if you need 250Hz with direct USB connection. */
+
+        // removed:
+        // automouse-layer = <MOUSE>;
+        // snipe-layers = <NAV>;
+        // scroll-layers = <RAISE>;
     };
 };
 
