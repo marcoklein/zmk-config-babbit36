@@ -48,6 +48,17 @@
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
+        eu: tap_preferred_euro_mods {
+            compatible = "zmk,behavior-hold-tap";
+            // behavior-hold-tap must have two parameters even though we're only using the second
+            #binding-cells = <2>;
+            tapping-term-ms = <150>;
+            quick-tap-ms = <200>;
+            require-prior-idle-ms = <125>;
+            flavor = "tap-preferred";
+            // long press will run the euro macro
+            bindings = <&euro>, <&kp>;
+        };
         um: tap_preferred_umlaut_mods {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -55,97 +66,88 @@
             quick-tap-ms = <200>;
             require-prior-idle-ms = <125>;
             flavor = "tap-preferred";
-            // long press will forward the key to the umlaut macro
+            // long press: umlaut with first param
+            // tap: keypress second param
             bindings = <&umlaut>, <&kp>;
-        };
-        cm: tap_preferred_hyper_mods {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            tapping-term-ms = <150>;
-            quick-tap-ms = <200>;
-            require-prior-idle-ms = <125>;
-            flavor = "tap-preferred";
-            bindings = <&kp>, <&hyper>;
-        };
-        umlaut_unshifted: umlaut_unshifted {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp LA(U)>, <&kp LA(U)>;
-            // the mod-morph will prevent the shift modifier from being sent while sending the umlaut shortcut
-            mods = <(MOD_LSFT|MOD_RSFT)>;
         };
     };
     macros {
         umlaut: umlaut {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
-            // use the mod-morph behavior to send the umlaut shortcut and then tap the given parameter key
             bindings =
-                <&umlaut_unshifted>,
-                <&macro_tap>,
+                <&macro_tap &kp K_CMENU>, // menu key is mapped to compose key
+                <&macro_tap &kp DQT>,
+                <&macro_tap>, // tap the key provided by params
                 <&macro_param_1to1 &kp MACRO_PLACEHOLDER>;
         };
-        hyper: hyper {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            bindings = <&macro_tap>,
-              <&macro_tap_time 100>,
-              <&macro_param_1to1 &sk MACRO_PLACEHOLDER>;
+        euro: euro {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_tap &kp K_CMENU>,
+                <&macro_tap &kp C>,
+                <&macro_tap &kp EQUAL>;
         };
     };
         keymap {
                 compatible = "zmk,keymap";
-                default_layer {
-                        bindings = <
-//,----------------------------------------------------------------------.            ,---------------------------------------------------------------------------------.
-    &kp TAB         &kp Q       &kp W   &tm LA(LS(N2)) E    &kp R   &kp T               &kp Y       &um U U        &kp I      &um O O           &kp P             &kp DEL
-//|---------+-------------+-----------+------------+-------------+-------|            |------+-------------+------------+-----------+---------------+-------------------|
-    &kp ESC   &tm LCTRL A   &tm LALT S  &tm LCMD D   &hm LSHFT F   &kp G               &kp H   &hm RSHFT J   &tm RCMD K   &tm RALT L  &tm RCTRL SEMI             &kp SQT
-//|---------+-------------+-----------+------------+-------------+-------|            |------+-------------+------------+-----------+---------------+-------------------|
-   &kp BSLH         &kp Z       &kp X        &kp C         &kp V   &kp B               &kp N       &kp M      &kp COMMA     &kp DOT        &kp FSLH   &cm LG(LC(SPACE)) LC(LA(LG(LSHFT)))
-//|---------+-------------+-----------+------------+-------------+-------+----|  |----+------+-------------+------------+-----------+---------------+-------------------|
-                                          &lt NAV F19  &lt LOWER SPACE  &lt RAISE BSPC     &lt RAISE RET   &lt LOWER SPACE  &kp F20
-                                       //`--------+-----------+---------------'  `---------------+----------------'
-                        >;
-                };
-                lower_layer {
-                        bindings = <
-//,------------------------------------------------------------.            ,---------------------------------------------------------------------------------.
-   &trans  &kp EXCLAMATION  &kp AT  &kp HASH  &kp DOLLAR  &kp PERCENT        &kp CARET  &kp AMPERSAND   &kp ASTERISK       &kp MINUS        &kp EQUAL   &trans
-//|-------+-----------+---------+----------+-----------+-------|            |------+-----------------+---------------+---------------+----------------+-------|
-   &kp GRAVE  &tm LCTRL N1  &tm LALT N2  &tm LCMD N3  &hm LSHFT N4  &kp N5   &kp N6   &hm RSHFT N7      &tm RCMD N8     &tm RALT N9     &tm RCTRL N0    &trans
-//|-------+-----------+---------+----------+-----------+-------|            |------+-----------------+---------------+---------------+----------------+-------|
-   &trans      &trans    &trans     &trans      &trans   &trans              &trans           &trans          &trans          &trans           &trans   &trans
-//|-------+-----------+---------+----------+-----------+-------+----|  |----+------+-----------------+---------------+---------------+----------------+-------|
-                                       &trans   &kp SPACE   &kp BSPC    &kp RET   &kp SPACE  &trans
-                                    //`-------+-----------+---------'  `--------+----------'
-                        >;
-                };
-                raise_layer {
-                        bindings = <
-//,-------------------------------------------------------------.            ,----------------------------------------------------------------------.
-   &kp F12   &kp F1   &kp F2   &kp F3       &kp F4   &kp F5                        &kp F6     &kp LPAR         &kp RPAR   &kp F9   &kp F10   &kp F11
-//|--------+--------+--------+--------+------------+------------|            |------------+------------+----------------+--------+---------+--------|
-   &caps_word &umlaut A &trans &trans       &trans   &trans                        &trans  &hm RSHFT LBRC  &hm RCMD RBRC  &trans  &trans  &trans
-//|--------+--------+--------+--------+------------+------------|            |------------+------------+----------------+--------+---------+--------|
-    &trans   &trans   &trans   &trans       &trans   &trans                         &trans  &kp LBKT            &kp RBKT   &trans    &trans   &trans
-//|--------+--------+--------+--------+------------+------------+----|  |----+------------+------------+----------------+--------+---------+--------|
-                                    &trans   &kp SPACE   &kp BSPC    &kp RET   &kp SPACE  &trans
-                                 //`-------+-----------+---------'  `--------+----------'
-                        >;
-                };
-                nav_layer {
-                        bindings = <
-//,--------------------------------------------------------------.            ,---------------------------------------------------------------.
-    &trans   &trans      &trans       &trans      &trans   &trans                &trans     &trans   &trans      &trans   &trans   &kp C_POWER
-//|--------+-----------+----------+----------+-----------+-------|            |---------+----------+--------+-----------+--------+------------|
-    &trans   &kp LCTRL   &kp LALT   &kp LCMD   &kp LSHFT   &trans              &kp LEFT   &kp DOWN   &kp UP   &kp RIGHT   &trans   &trans
-//|--------+-----------+----------+----------+-----------+-------|            |---------+----------+--------+-----------+--------+------------|
-    &trans   &trans      &trans       &trans  &sys_reset  &bootloader         &bootloader  &sys_reset  &trans     &trans   &trans   &trans
-//|--------+-----------+----------+----------+-----------+-------+----|  |----+---------+----------+--------+-----------+--------+------------|
-                                            &trans   &kp SPACE   &kp BSPC    &kp RET   &kp SPACE  &trans
-                                         //`-------+-----------+---------'  `--------+----------'
-                        >;
-                };
+
+        default_layer {
+            bindings = <
+// ╭─────────┬─────────────┬────────────┬────────────┬─────────────┬───────╮   ╭───────┬─────────────┬────────────┬────────────┬────────────────┬───────────────╮
+    &kp TAB       &kp Q        &kp W        &eu E E       &kp R      &kp T       &kp Y     &um U U       &kp I       &um O O         &kp P          &kp DEL
+// ├─────────┼─────────────┼────────────┼────────────┼─────────────┼───────┤   ├───────┼─────────────┼────────────┼────────────┼────────────────┼───────────────┤
+    &kp ESC    &tm LCTRL A   &tm LALT S   &tm LCMD D   &hm LSHFT F   &kp G       &kp H   &hm RSHFT J   &tm RCMD K   &tm RALT L   &tm RCTRL SEMI     &kp SQT
+// ├─────────┼─────────────┼────────────┼────────────┼─────────────┼───────┤   ├───────┼─────────────┼────────────┼────────────┼────────────────┼───────────────╯
+    &kp BSLH      &kp Z        &kp X        &kp C         &kp V      &kp B       &kp N      &kp M      &kp COMMA     &kp DOT        &kp FSLH      &kp LG(LC(E))
+// ╰─────────┴─────────────┴────────────┼────────────┼─────────────┼───────┤   ├───────┼─────────────┼────────────┴────────────┴────────────────┴───────────────╯
+                          &lt NAV F19     &lt LOWER SPACE   &lt RAISE BSPC       &lt RAISE RET   &lt LOWER SPACE   &kp F20
+//                      ╰───────────────┴─────────────────┴────────────────╯   ╰───────────────┴──────────────────┴─────────╯
+            >;
         };
+
+
+        lower_layer {
+            bindings = <
+// ╭───────────┬──────────────┬─────────────┬─────────────┬──────────────┬───────────╮   ╭───────────┬──────────────┬─────────────┬─────────────┬──────────────┬────────╮
+      &trans       &kp EXCL       &kp AT       &kp HASH       &kp DLLR     &kp PRCNT       &kp CARET     &kp AMPS      &kp STAR      &kp MINUS     &kp EQUAL     &trans
+// ├───────────┼──────────────┼─────────────┼─────────────┼──────────────┼───────────┤   ├───────────┼──────────────┼─────────────┼─────────────┼──────────────┼────────┤
+     &kp GRAVE   &tm LCTRL N1   &tm LALT N2   &tm LCMD N3   &hm LSHFT N4     &kp N5         &kp N6     &hm RSHFT N7   &tm RCMD N8   &tm RALT N9   &tm RCTRL N0   &trans
+// ├───────────┼──────────────┼─────────────┼─────────────┼──────────────┼───────────┤   ├───────────┼──────────────┼─────────────┼─────────────┼──────────────┼────────┤
+      &trans        &trans        &trans        &trans         &trans       &trans          &trans        &trans        &trans        &trans         &trans      &trans
+// ╰───────────┴──────────────┴─────────────┼─────────────┼──────────────┼───────────┤   ├───────────┼──────────────┼─────────────┴─────────────┴──────────────┴────────╯
+                                                &trans       &kp SPACE     &kp BSPC        &kp RET      &kp SPACE   &trans
+//                                          ╰─────────────┴──────────────┴───────────╯   ╰───────────┴────────────┴────────╯
+            >;
+        };
+
+        raise_layer {
+            bindings = <
+// ╭─────────────┬───────────┬────────┬────────┬────────┬────────╮   ╭────────┬────────────────┬───────────────┬────────┬────────┬─────────────╮
+       &kp F12      &kp F1     &kp F2   &kp F3   &kp F4   &kp F5       &kp F6      &kp LPAR        &kp RPAR      &kp F9   &kp F10    &kp F11
+// ├─────────────┼───────────┼────────┼────────┼────────┼────────┤   ├────────┼────────────────┼───────────────┼────────┼────────┼─────────────┤
+     &caps_word    &umlaut A   &trans   &trans   &trans   &trans       &trans   &hm RSHFT LBRC   &hm RCMD RBRC   &trans   &trans      &trans
+// ├─────────────┼───────────┼────────┼────────┼────────┼────────┤   ├────────┼────────────────┼───────────────┼────────┼────────┼─────────────┤
+     &bootloader     &trans    &trans   &trans   &trans   &trans       &trans      &kp LBKT        &kp RBKT      &trans   &trans   &bootloader
+// ╰─────────────┴───────────┴────────┼────────┼────────┼────────┤   ├────────┼────────────────┼───────────────┴────────┴────────┴─────────────╯
+                                   &trans   &kp SPACE   &kp BSPC       &kp RET   &kp SPACE   &trans
+//                               ╰────────┴───────────┴──────────╯   ╰─────────┴───────────┴─────────╯
+            >;
+        };
+
+        nav_layer {
+            bindings = <
+// ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────┬────────╮   ╭──────────┬────────────┬──────────┬───────────┬────────┬─────────────╮
+     &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &bt BT_SEL 4   &trans        &trans      &trans      &trans     &trans     &trans   &kp C_POWER
+// ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼────────┤   ├──────────┼────────────┼──────────┼───────────┼────────┼─────────────┤
+     &bt BT_CLR      &kp LCTRL       &kp LALT       &kp LCMD      &mkp LSHFT    &trans       &kp LEFT    &kp DOWN     &kp UP    &kp RIGHT   &trans      &trans
+// ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┼────────┤   ├──────────┼────────────┼──────────┼───────────┼────────┼─────────────┤
+       &trans          &trans         &trans        &trans        &sys_reset    &trans        &trans    &sys_reset    &trans     &trans     &trans    &kp PSCRN
+// ╰──────────────┴──────────────┴──────────────┼──────────────┼──────────────┼────────┤   ├──────────┼────────────┼──────────┴───────────┴────────┴─────────────╯
+                                                          &trans   &kp SPACE   &kp BSPC      &kp RET    &kp SPACE   &trans
+//                                                      ╰─────────┴───────────┴────────╯   ╰──────────┴───────────┴─────────╯
+            >;
+        };
+    };
 };
