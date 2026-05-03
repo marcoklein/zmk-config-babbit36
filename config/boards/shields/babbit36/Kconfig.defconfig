@@ -1,0 +1,9 @@
+if BABBIT36
+
+config ZMK_KEYBOARD_NAME
+    default "babbit36"
+
+config SPI
+	default y
+
+endif
