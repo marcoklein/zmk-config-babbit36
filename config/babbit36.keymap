@@ -21,7 +21,7 @@
 
         default_layer {
             bindings = <
-              &bd &bd &bd &bd &bd &bd &bd &bd &bd &bd
+      &bootloader &bd &bd &bd &bd &bd &bd &bd &bd &bd
               &bd &bd &bd &bd &bd &bd &bd &bd &bd &bd
               &bd &bd &bd &bd &bd &bd &bd &bd &bd &bd
                       &bd &bd &bd &bd &bd &bd
