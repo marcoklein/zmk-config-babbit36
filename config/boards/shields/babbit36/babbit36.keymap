@@ -56,7 +56,7 @@
 // ├───────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
       &kp Z      &kp X      &kp C     &kp D     &kp V         &kp K     &kp H    &kp COMMA   &kp DOT   &kp FSLH
 // ╰───────────┴──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                    &lt NAV TAB  &lt LOWER ESC   &lt RAISE BSPC    &lt RAISE RET  &lt LOWER SPACE  &kp DEL
+                    &lt NAV ESC  &lt LOWER TAB   &lt RAISE BSPC    &lt RAISE RET  &lt LOWER SPACE  &kp DEL
 //                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
             >;
         };
